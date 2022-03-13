@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta title="Wintrace">
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;1,700&display=swap');
+    @font-face {
+        font-family: Cascadia Regular;
+        src: url('./CascadiaMono-Regular.ttf');
+    }
+    @font-face {
+        font-family: Cascadia Bold;
+        src: url('./CascadiaMono-Bold.ttf');
+    }
+    body, html {
+        background-color: rgb(41, 37, 53);
+        text-align: center;
+        align-items: center;
+    }
+    .title {
+        color: white;
+        font-family: 'Lato', sans-serif;
+        font-weight: 700;
+        font-size: 60px;
+        letter-spacing: 1px;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .ip {
+        border-radius: 7px;
+        padding: 0;
+        border: 0;
+        height: 38px;
+        width: 200px;
+        color: white;
+        text-align: center;
+        font-family: 'Lato', sans-serif;
+        background: rgba(255, 255, 255, 0);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 1);
+    }
+    .look {
+        width: 38px;
+        height: 38px;
+        border-radius: 5px;
+        border: 0;
+        background: white;
+        transition: 0.25s;
+        cursor: pointer;
+    }
+    .look:hover {
+        background: rgb(184, 184, 184);
+    }
+    .title span {
+        font-weight: bold;
+        grid-row-start: 1;
+        grid-column-start: 1;
+        font-size: 4rem;
+        --title-height: calc(100% / var(--titles) - 1px);
+        --inverse-index: calc(calc(var(--titles) - 1) - var(--index));
+        --clip-top: calc(var(--title-height) * var(--index));
+        --clip-bottom: calc(var(--title-height) * var(--inverse-index));
+        clip-path: inset(var(--clip-top) 0 var(--clip-bottom) 0);
+        animation: title 340ms cubic-bezier(.46,.29,0,1.24) 1 backwards calc(var(--index) * 120ms), glitch 2s ease infinite 2s alternate-reverse;
+    }
+
+    .title span:nth-child(odd) { --glitch-translate: 8px; }
+    .title span:nth-child(even) { --glitch-translate: -8px; }
+
+    @keyframes title {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%);
+            text-shadow: -2px 3px 0 red, 2px -3px 0 blue;
+        };
+        60% {
+            opacity: 0.5;
+            transform: translateX(50%);
+        }
+        80% {
+            transform: none;
+            opacity: 1;
+            text-shadow: 2px -3px 0 red, -2px 3px 0 blue;
+        }
+        100% {
+            text-shadow: none;
+        }
+    }
+
+    @keyframes glitch {
+        0% {
+            text-shadow: -2px 3px 0 red, 2px -3px 0 blue;
+            transform: translate(var(--glitch-translate));
+        }
+        2% {
+            text-shadow: 2px -3px 0 red, -2px 3px 0 blue;
+        }
+        4%, 100% {
+            text-shadow: none; transform: none; 
+        }
+    }
+    .content {
+        color: #98c379;
+        font-family: Cascadia Regular;
+    }
+    .info-title {
+        font-family: Cascadia Bold;
+        font-size: 18px;
+        color: #cdad72;
+    }
+</style>
+<body>
+    <br><br><br><br>
+    <div class="title" style="--titles: 3;">
+        <span style="--index: 0;">WINTRACE</span>
+        <span style="--index: 1;">WINTRACE</span>
+        <span style="--index: 2;">WINTRACE</span>
+    </div>
+    <br><br>
+    <input type="text" placeholder="IP adress" class="ip" id="ip_input">
+    &nbsp;&nbsp;
+    <button class="look" onclick="look_for_ip()">🔎</button>
+    <div class="content">
+        <br><br>
+        <h4><a class="info-title">Country > </a> <a id="country">United States</a></h4>
+        <h4><a class="info-title">Region > </a> <a id="region">United States</a></h4>
+        <h4><a class="info-title">City > </a> <a id="city">United States</a></h4>
+        <h4><a class="info-title">Latitude > </a> <a id="latitude">United States</a></h4>
+        <h4><a class="info-title">Longitude > </a> <a id="longitude">United States</a></h4>
+        <h4><a class="info-title">Google Maps > </a> <a id="maps" href="https://maps.google.com/maps" style="color:rgb(0, 135, 212); text-decoration: none;">See location</a></h4>
+        <h4><a class="info-title">Time Zone > </a> <a id="timezone">United States</a></h4>
+        <h4><a class="info-title">ISP > </a> <a id="isp">United States</a></h4>
+        <h4><a class="info-title">Organization > </a> <a id="organization">United States</a></h4>
+        <h4><a class="info-title">ASN > </a> <a id="asn">United States</a></h4>
+    </div>
+    <script>
+        function look_for_ip() {
+            const Http = new XMLHttpRequest();
+            fetch('https://ipapi.co/'+document.getElementById("ip_input").value+'/json/')
+            .then(function(response) {
+            response.json().then(jsonData => {
+                console.log(jsonData);
+            });
+            })
+            .catch(function(error) {
+                console.log(error)
+            });
+
+            Http.onreadystatechange = (e) => {
+            console.log(Http.responseText)
+            }
+            document.getElementById("country").innerHTML = "Aya"
+            document.getElementById("region").innerHTML = "Aya"
+            document.getElementById("city").innerHTML = "Aya"
+            document.getElementById("latitude").innerHTML = "Aya"
+            document.getElementById("longitude").innerHTML = "Aya"
+            document.getElementById("maps").innerHTML = "Aya"
+            document.getElementById("timezone").innerHTML = "Aya"
+            document.getElementById("isp").innerHTML = "Aya"
+            document.getElementById("organization").innerHTML = "Aya"
+            document.getElementById("asn").innerHTML = "Aya"
+        }
+    </script>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+</html>
