@@ -21,7 +21,6 @@ else:
         ip = requests.get("https://api.ipify.org").text
 import requests
 info = requests.get('http://ip-api.com/json/'+ip).json()
-print(info)
 if info["status"] == "success":
     rich.print("""[bold red]
   __      _____ _  _ _____ ___    _   ___ ___ 
