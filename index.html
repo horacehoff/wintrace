@@ -137,27 +137,21 @@
         <h4><a class="info-title">ASN > </a> <a id="asn">United States</a></h4>
     </div>
     <script>
+        function httpGet(theUrl) {
+            let xmlHttpReq = new XMLHttpRequest();
+            xmlHttpReq.open("GET", theUrl, true);
+            xmlHttpReq.setRequestHeader('Access-Control-Allow-Origin', "*")
+            xmlHttpReq.setRequestHeader('contentType', "application/json")
+            return xmlHttpReq.responseText
+        }
         function look_for_ip() {
-            const Http = new XMLHttpRequest();
-            fetch('https://ipapi.co/'+document.getElementById("ip_input").value+'/json/')
-            .then(function(response) {
-            response.json().then(jsonData => {
-                console.log(jsonData);
-            });
-            })
-            .catch(function(error) {
-                console.log(error)
-            });
-
-            Http.onreadystatechange = (e) => {
-            console.log(Http.responseText)
-            }
+            console.log(httpGet('https://ipapi.co/'+document.getElementById("ip_input").value+'/json/'));
             document.getElementById("country").innerHTML = "Aya"
             document.getElementById("region").innerHTML = "Aya"
             document.getElementById("city").innerHTML = "Aya"
             document.getElementById("latitude").innerHTML = "Aya"
             document.getElementById("longitude").innerHTML = "Aya"
-            document.getElementById("maps").innerHTML = "Aya"
+            document.getElementById("maps").href = "http://maps.google.com/maps?q="+document.getElementById("latitude").innerHTML+","+document.getElementById("longitude").innerHTML
             document.getElementById("timezone").innerHTML = "Aya"
             document.getElementById("isp").innerHTML = "Aya"
             document.getElementById("organization").innerHTML = "Aya"
