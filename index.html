@@ -154,7 +154,6 @@
         <h4><a class="info-title">Longitude > </a> <a id="longitude"></a></h4>
         <h4><a class="info-title">Google Maps > </a> <a id="maps" target="_blank" href="https://maps.google.com/maps" style="color:rgb(0, 135, 212); text-decoration: none;">See location</a></h4>
         <h4><a class="info-title">Time Zone > </a> <a id="timezone"></a></h4>
-        <h4><a class="info-title">ISP > </a> <a id="isp"></a></h4>
         <h4><a class="info-title">Organization > </a> <a id="organization"></a></h4>
         <h4><a class="info-title">ASN > </a> <a id="asn"></a></h4>
     </div>
@@ -181,7 +180,6 @@
                     document.getElementById("longitude").innerHTML = obj.longitude
                     document.getElementById("maps").href = "http://maps.google.com/maps?q="+document.getElementById("latitude").innerHTML+","+document.getElementById("longitude").innerHTML
                     document.getElementById("timezone").innerHTML = obj.timezone
-                    document.getElementById("isp").innerHTML = "Aya"
                     document.getElementById("organization").innerHTML = obj.org
                     document.getElementById("asn").innerHTML = obj.asn
                     document.getElementById("content").style.display = "inline";
