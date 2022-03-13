@@ -1,6 +1,3 @@
-import socket
-
-
 try:
     import os, sys, json, requests
     import rich
