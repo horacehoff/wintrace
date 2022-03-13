@@ -105,14 +105,34 @@
     .content {
         color: #98c379;
         font-family: Cascadia Regular;
+        display: none;
     }
     .info-title {
         font-family: Cascadia Bold;
         font-size: 18px;
         color: #cdad72;
     }
+    .error {
+        color: red;
+        font-size: 30px;
+        font-family: Cascadia Bold;
+        display: none;
+    }
+    .full-error {
+        color: orange;
+        font-size: 20px;
+        font-family: Cascadia Regular;
+        display: none;
+    }
+    .source {
+        font-family: Cascadia Regular;
+        color: orange;
+        cursor: pointer;
+        display: inline;
+    }
 </style>
 <body>
+    <h4 class="source" onclick="window.open('https://github.com/just-a-mango/wintrace', '_blank')">Source</h4>
     <br><br><br><br>
     <div class="title" style="--titles: 3;">
         <span style="--index: 0;">WINTRACE</span>
@@ -123,39 +143,61 @@
     <input type="text" placeholder="IP adress" class="ip" id="ip_input">
     &nbsp;&nbsp;
     <button class="look" onclick="look_for_ip()">🔎</button>
-    <div class="content">
+    <h3 class="error" id="error">ERROR</h3>
+    <p class="full-error" id="full_error">Full error =></p>
+    <div class="content" id="content">
         <br><br>
-        <h4><a class="info-title">Country > </a> <a id="country">United States</a></h4>
-        <h4><a class="info-title">Region > </a> <a id="region">United States</a></h4>
-        <h4><a class="info-title">City > </a> <a id="city">United States</a></h4>
-        <h4><a class="info-title">Latitude > </a> <a id="latitude">United States</a></h4>
-        <h4><a class="info-title">Longitude > </a> <a id="longitude">United States</a></h4>
-        <h4><a class="info-title">Google Maps > </a> <a id="maps" href="https://maps.google.com/maps" style="color:rgb(0, 135, 212); text-decoration: none;">See location</a></h4>
-        <h4><a class="info-title">Time Zone > </a> <a id="timezone">United States</a></h4>
-        <h4><a class="info-title">ISP > </a> <a id="isp">United States</a></h4>
-        <h4><a class="info-title">Organization > </a> <a id="organization">United States</a></h4>
-        <h4><a class="info-title">ASN > </a> <a id="asn">United States</a></h4>
+        <h4><a class="info-title">Country > </a> <a id="country"></a></h4>
+        <h4><a class="info-title">Region > </a> <a id="region"></a></h4>
+        <h4><a class="info-title">City > </a> <a id="city"></a></h4>
+        <h4><a class="info-title">Latitude > </a> <a id="latitude"></a></h4>
+        <h4><a class="info-title">Longitude > </a> <a id="longitude"></a></h4>
+        <h4><a class="info-title">Google Maps > </a> <a id="maps" target="_blank" href="https://maps.google.com/maps" style="color:rgb(0, 135, 212); text-decoration: none;">See location</a></h4>
+        <h4><a class="info-title">Time Zone > </a> <a id="timezone"></a></h4>
+        <h4><a class="info-title">ISP > </a> <a id="isp"></a></h4>
+        <h4><a class="info-title">Organization > </a> <a id="organization"></a></h4>
+        <h4><a class="info-title">ASN > </a> <a id="asn"></a></h4>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         function httpGet(theUrl) {
-            let xmlHttpReq = new XMLHttpRequest();
-            xmlHttpReq.open("GET", theUrl, true);
-            xmlHttpReq.setRequestHeader('Access-Control-Allow-Origin', "*")
-            xmlHttpReq.setRequestHeader('contentType', "application/json")
-            return xmlHttpReq.responseText
+            axios.defaults.headers.get['Content-Type'] ='application/json';
+            axios.get(theUrl)
+            .then(response => {
+                console.log(response.data);
+                obj = response.data;
+                if (obj.error == true) {
+                    document.getElementById("content").style.display = "none";
+                    document.getElementById("error").style.display = "block";
+                    document.getElementById("full_error").style.display = "block";
+                    document.getElementById("full_error").innerHTML = "Full error => "+obj.reason
+                } else {
+                    document.getElementById("error").style.display = "none";
+                    document.getElementById("full_error").style.display = "none";
+                    document.getElementById("country").innerHTML = obj.country_name;
+                    document.getElementById("region").innerHTML = obj.region
+                    document.getElementById("city").innerHTML = obj.city
+                    document.getElementById("latitude").innerHTML = obj.latitude
+                    document.getElementById("longitude").innerHTML = obj.longitude
+                    document.getElementById("maps").href = "http://maps.google.com/maps?q="+document.getElementById("latitude").innerHTML+","+document.getElementById("longitude").innerHTML
+                    document.getElementById("timezone").innerHTML = obj.timezone
+                    document.getElementById("isp").innerHTML = "Aya"
+                    document.getElementById("organization").innerHTML = obj.org
+                    document.getElementById("asn").innerHTML = obj.asn
+                    document.getElementById("content").style.display = "inline";
+                }
+            })
+            .catch(error => {
+                document.getElementById("content").style.display = "none";
+                document.getElementById("error").style.display = "block";
+                document.getElementById("full_error").style.display = "block";
+                document.getElementById("full_error").innerHTML = "Full error => "+error
+
+            })
         }
         function look_for_ip() {
-            console.log(httpGet('https://ipapi.co/'+document.getElementById("ip_input").value+'/json/'));
-            document.getElementById("country").innerHTML = "Aya"
-            document.getElementById("region").innerHTML = "Aya"
-            document.getElementById("city").innerHTML = "Aya"
-            document.getElementById("latitude").innerHTML = "Aya"
-            document.getElementById("longitude").innerHTML = "Aya"
-            document.getElementById("maps").href = "http://maps.google.com/maps?q="+document.getElementById("latitude").innerHTML+","+document.getElementById("longitude").innerHTML
-            document.getElementById("timezone").innerHTML = "Aya"
-            document.getElementById("isp").innerHTML = "Aya"
-            document.getElementById("organization").innerHTML = "Aya"
-            document.getElementById("asn").innerHTML = "Aya"
+            console.log('[DEBUG] https://ipapi.co/'+document.getElementById("ip_input").value+'/json/');
+            httpGet('https://ipapi.co/'+document.getElementById("ip_input").value+'/json/');
         }
     </script>
 </body>
