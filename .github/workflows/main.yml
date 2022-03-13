@@ -1,4 +1,4 @@
-name: Make .exe
+name: Make .exe (PROTOTYPE)
 
 on:
   push:
