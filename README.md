@@ -1,6 +1,7 @@
 # Wintrace
 A small but useful python script to get information about any IP, heavily inspired by [Ip-Tracer](https://github.com/rajkumardusad/IP-Tracer).\
-It uses [Ipify](https://www.ipify.org/) and [ip-api](https://ip-api.com/)
+It uses [Ipify](https://www.ipify.org/) and [ip-api](https://ip-api.com/).\
+Wintrace is also available online [here](https://just-a-mango.github.io/wintrace/)
 
 ## How to use Wintrace ?
 `python wintrace.py -m` to trace your own IP adress\
