@@ -1,0 +1,42 @@
+name: Make .exe
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'wintrace.py'
+      - 'github/workflows/main.yml'
+
+jobs:
+  build:
+
+    runs-on: windows-2022
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v2.3.1
+      with:
+        python-version: '3.10'
+    - name: PyInstaller Build
+      run:
+        pip install pyinstaller
+        pip install tinyaes
+    
+        pyinstaller wintrace.py --onefile -i "NONE"
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v2.3.0
+      with:
+        name: Mango Binary build
+        path: D:\a\wintrace\wintrace\dist\wintrace.exe
+    - name: Attempt Upload Exe To Repo
+      uses: "finnp/create-file-action@master"
+      env:
+        FILE_NAME: "wintrace.exe"
+        FILE_DATA: D:\a\wintrace\wintrace\dist\wintrace.exe
+    - name: Upload Source Artifact
+      uses: actions/upload-artifact@v2.3.0
+      with:
+        name: Mango Source File
+        path: mango.py# This is a basic workflow to help you get started with Actions
