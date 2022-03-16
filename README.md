@@ -5,7 +5,7 @@ Wintrace is also available online [here](https://just-a-mango.github.io/wintrace
 
 ## How to use Wintrace ?
 `wintrace -m` to trace your own IP adress\
-`wintrace your_ip` to trace a desired IP adress
+`wintrace ip` to trace a desired IP adress
 
 ## What it looks like
 <img src="https://i.imgur.com/QUZlNpq.png"></img>
