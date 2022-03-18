@@ -4,10 +4,8 @@ It uses [Ipify](https://www.ipify.org/) and [ip-api](https://ip-api.com/).\
 Wintrace is also available online [here](https://just-a-mango.github.io/wintrace/)
 
 ## How to use Wintrace ?
-`python wintrace.py -m` to trace your own IP adress\
 `wintrace -m` to trace your own IP adress\
-`python wintrace.py your_ip` to trace a desired IP adress\
-`wintrace your_ip` to trace a desired IP adress
+`wintrace ip` to trace a desired IP adress
 
 ## What it looks like
 <img src="https://i.imgur.com/QUZlNpq.png"></img>
