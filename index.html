@@ -211,5 +211,14 @@
             httpGet('https://ipapi.co/'+document.getElementById("ip_input").value+'/json/');
         }
     </script>
+    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+    <script>
+      kofiWidgetOverlay.draw('justamango', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support me',
+        'floating-chat.donateButton.background-color': '#fcbf47',
+        'floating-chat.donateButton.text-color': '#323842'
+      });
+    </script>
 </body>
 </html>
